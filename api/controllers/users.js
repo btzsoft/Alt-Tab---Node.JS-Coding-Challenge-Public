@@ -1,29 +1,29 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-const signup = require('api/services/user/signup');
-const signin = require('api/services/user/signin');
-const logout = require('api/services/user/logout');
+const signup = require('api/services/user/signup')
+const signin = require('api/services/user/signin')
+const logout = require('api/services/user/logout')
 
 router.post('/signup', (req, res, next) => {
-  const { name, email, password } = req.body;
+  const {name, email, password} = req.body
 
   signup(name, email, password)
   .then(result => res.send({
     token: result.token,
   }))
   .catch(next)
-});
+})
 
 router.post('/signin', (req, res, next) => {
-  const { email, password } = req.body;
+  const {email, password} = req.body
 
   signin(email, password)
   .then(result => res.send({
     token: result.token,
   }))
   .catch(next)
-});
+})
 
 router.post('/logout', (req, res, next) => {
   req
@@ -35,7 +35,7 @@ router.post('/logout', (req, res, next) => {
     status: 'success',
   }))
   .catch(next)
-});
+})
 
 router.get('/profile', (req, res, next) => {
   req
@@ -44,6 +44,6 @@ router.get('/profile', (req, res, next) => {
     res.send(user)
   })
   .catch(next)
-});
+})
 
-module.exports = router;
+module.exports = router

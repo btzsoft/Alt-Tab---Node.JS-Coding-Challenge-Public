@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt');
-const mongoose = require('api/db');
-const { Schema } = mongoose;
+const bcrypt = require('bcrypt')
+const mongoose = require('api/db')
+const {Schema} = mongoose
 
 const schema = new Schema({
   user_id: {
@@ -22,6 +22,6 @@ const schema = new Schema({
     type: Date,
     default: Date.now,
   },
-});
+})
 
-module.exports = mongoose.model('Token', schema);
+module.exports = mongoose.model('Token', schema)

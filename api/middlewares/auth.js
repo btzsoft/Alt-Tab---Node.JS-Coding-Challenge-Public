@@ -1,4 +1,4 @@
-const authorise = require('api/services/user/authorise');
+const authorise = require('api/services/user/authorise')
 
 /**
  * Authorise Middleware
@@ -8,15 +8,15 @@ const authorise = require('api/services/user/authorise');
  * @param next
  */
 module.exports = (req, res, next) => {
-  const { authorization } = req.headers;
+  const {authorization} = req.headers
 
   req.auth = () => {
     return authorise(authorization)
     .then(user => {
-      const { _id, name, email, status, createdAt, updatedAt } = user;
+      const {_id, name, email, status, createdAt, updatedAt} = user
       req.session = {
         token: authorization,
-      };
+      }
       req.user = { //store only this fields
         _id,
         name,
@@ -24,10 +24,10 @@ module.exports = (req, res, next) => {
         status,
         createdAt,
         updatedAt,
-      };
-      return req.user;
+      }
+      return req.user
     })
-  };
+  }
 
   next()
-};
+}

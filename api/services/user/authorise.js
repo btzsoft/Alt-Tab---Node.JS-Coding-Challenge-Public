@@ -1,12 +1,12 @@
-const is = require('is_js');
-const jwt = require('jsonwebtoken');
-const { JWT_SECRET, JWT_OPTIONS } = require('api/config');
-const InvalidTokenError = require('api/errors/InvalidToken');
-const UserNotExistsError = require('api/errors/UserNotExists');
-const TokenExpiredError = require('api/errors/TokenExpired');
-const TokenNotExistsError = require('api/errors/TokenNotExists');
-const UserModel = require('api/models/user');
-const TokenModel = require('api/models/token');
+const is = require('is_js')
+const jwt = require('jsonwebtoken')
+const {JWT_SECRET} = require('api/config')
+const InvalidTokenError = require('api/errors/InvalidToken')
+const UserNotExistsError = require('api/errors/UserNotExists')
+const TokenExpiredError = require('api/errors/TokenExpired')
+const TokenNotExistsError = require('api/errors/TokenNotExists')
+const UserModel = require('api/models/user')
+const TokenModel = require('api/models/token')
 
 /**
  * Authorisation based on token
@@ -16,32 +16,32 @@ const TokenModel = require('api/models/token');
  */
 module.exports = (token) => {
 
-  if (is.not.existy(token) || is.empty(token)) throw new InvalidTokenError();
+  if (is.not.existy(token) || is.empty(token)) throw new InvalidTokenError()
 
   try {
-    jwt.verify(token, JWT_SECRET);
+    jwt.verify(token, JWT_SECRET)
   } catch (e) {
-    throw new InvalidTokenError(e);
+    throw new InvalidTokenError(e)
   }
 
   return TokenModel
-  .findOne({ token })
+  .findOne({token})
   .exec()
   .then(tokenModel => {
     if (!tokenModel) {
-      throw new TokenNotExistsError(token);
+      throw new TokenNotExistsError(token)
     }
     if (tokenModel.status !== 'active') {
       throw new TokenExpiredError(token)
     }
     return UserModel
-    .findOne({ _id: tokenModel.user_id })
+    .findOne({_id: tokenModel.user_id})
     .exec()
     .then(userModel => {
       if (!userModel) {
-        throw new UserNotExistsError();
+        throw new UserNotExistsError()
       }
-      return userModel;
-    });
+      return userModel
+    })
   })
-};
+}
